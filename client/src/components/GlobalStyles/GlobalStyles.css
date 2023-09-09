@@ -1,7 +1,34 @@
 @import 'normalize.css';
+/*Link icon: https://pictogrammers.com/library/mdi/ */
 
 :root {
-    --primary-color: #f1f5f9 ;
+    --text-color: #303a4a;
+    --background-color: #f1f5f9 ;
+    --primary-color: #1e40af;
+    --theme2: #2f3542;
+    --theme3: #1e3a8a;
+    --theme4: #164e63;
+    --theme5: #312e81;
+}
+
+.theme1 {
+    --primary-color: #1e40af;
+}
+
+.theme2 {
+    --primary-color: var(--theme2);
+}
+
+.theme3 {
+    --primary-color: var(--theme3);
+}
+
+.theme4 {
+    --primary-color: var(--theme4);
+}
+
+.theme5 {
+    --primary-color: var(--theme5);
 }
 
 * {
@@ -12,7 +39,7 @@
 
 html {
     font-size: 62.5%;
-    background-color: var(--primary-color);
+    background-color: var(--background-color);
 }
 
 body {

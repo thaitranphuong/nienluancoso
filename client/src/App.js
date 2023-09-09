@@ -1,13 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import { Fragment } from 'react';
 
-import { privateRoute } from './routes';
+import { privateRoute, publicRoute } from './routes';
 import DefaultLayout from './Layout/DefaultLayout';
 
 function App() {
     return (
         <div className="App">
             <Routes>
+                {publicRoute.map((route, index) => {
+                    const Page = route.component;
+                    return <Route path={route.path} element={<Page />} />;
+                })}
+
                 {privateRoute.map((route, index) => {
                     let Layout = DefaultLayout;
 

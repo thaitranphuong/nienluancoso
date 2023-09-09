@@ -19,7 +19,7 @@
     z-index: 3;
 }
 
-.searchInput {
+input.searchInput {
     border: none;
     flex: 1;
     padding: 10px;
@@ -28,7 +28,7 @@
 }
 
 .searchIcon {
-    background-color: #1e40af;
+    background-color: var(--primary-color);
     padding: 12px;
     border-radius: 4px;
     cursor: pointer;
@@ -36,7 +36,7 @@
 
     &:active {
         opacity: 0.8;
-        box-shadow: 0 0 5px #1e40af;
+        box-shadow: 0 0 5px var(--primary-color);
     }
 }
 

@@ -1,18 +1,60 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRightFromBracket, faDoorClosed, faDoorOpen, faMicroscope } from '@fortawesome/free-solid-svg-icons';
-
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import Icon from '@mdi/react';
+import { mdiAccountOutline, mdiBellOutline, mdiRotate3dVariant } from '@mdi/js';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import avatar from '../../../assets/images/avatar.png';
 
 function Header() {
+    const [windows, setWindow] = useState(false);
+
+    const handleRefresh = () => {
+        window.location.pathname = '/student/home';
+    };
+
     return (
         <div className={styles.wrapper}>
+            <Icon path={mdiBellOutline} size={1.4} className={styles.bellIcon} />
             <div className={styles.avatarWrapper}>
-                <img className={styles.avatar} src={avatar} alt="avatar"></img>
-                <div className={styles.logoutWrapper}>
-                    <FontAwesomeIcon className={styles.avatarIcon} icon={faArrowRightFromBracket} />
-                    <div>Đăng xuất</div>
-                </div>
+                <img onClick={() => setWindow(!windows)} className={styles.avatar} src={avatar} alt="avatar"></img>
+
+                {windows && (
+                    <>
+                        <div className={styles.aroundWindow} onClick={() => setWindow(false)}></div>
+                        <div className={styles.accountWindow}>
+                            <header className={styles.headerWindow}>
+                                <div className={styles.username}>Thai Tran</div>
+                                <div className={styles.role}>Học sinh</div>
+                            </header>
+                            <div className={styles.bodyWindow}>
+                                <div className={styles.wrapperItem}>
+                                    <Link
+                                        onClick={() => setWindow(!windows)}
+                                        to="/student/account"
+                                        className={styles.bodyItem}
+                                    >
+                                        <Icon className={styles.bodyIcon} path={mdiAccountOutline} size={1} />
+                                        Tài khoản
+                                    </Link>
+                                </div>
+                                <div onClick={handleRefresh} className={styles.wrapperItem}>
+                                    <div className={styles.bodyItem}>
+                                        <Icon className={styles.bodyIcon} path={mdiRotate3dVariant} size={1} />
+                                        Refresh
+                                    </div>
+                                </div>
+                            </div>
+                            <footer className={styles.fotterWindow}>
+                                <div onClick={() => setWindow(!window)} className={styles.wrapperItem}>
+                                    <FontAwesomeIcon className={styles.logoutIcon} icon={faArrowRightFromBracket} />
+                                    Đăng xuất
+                                </div>
+                            </footer>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

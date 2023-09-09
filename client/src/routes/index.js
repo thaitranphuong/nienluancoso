@@ -4,7 +4,7 @@ import Classroom from '../Pages/Student/Classroom';
 import JoinClass from '../Pages/Student/JoinClass';
 import { Fragment } from 'react';
 
-const publicRoute = [];
+const publicRoute = [{ path: '/login', component: Login, layout: null }];
 
 const privateRoute = [
     { path: '/student/', component: Home },
@@ -12,7 +12,6 @@ const privateRoute = [
     { path: '/student/joinclass', component: JoinClass },
     { path: '/student/classroom', component: Classroom },
     { path: '/student/account', component: Fragment },
-    { path: '/login', component: Login, layout: null },
 ];
 
 export { publicRoute, privateRoute };

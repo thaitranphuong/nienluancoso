@@ -1,24 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState } from 'react';
-import {
-    faBook,
-    faBookOpen,
-    faBuilding,
-    faFileLines,
-    faHouse,
-    faStamp,
-    faUser,
-    faUserCheck,
-    faUserCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import Icon from '@mdi/react';
+import { mdiAccountOutline, mdiCogOutline, mdiHomeOutline, mdiFileDocumentOutline } from '@mdi/js';
+import { useContext } from 'react';
 
+import { ContextProvider } from '../../../components/Povider';
 import styles from './Sidebar.module.scss';
 import logo from '../../../assets/images/logo.png';
 
 function Sidebar() {
-    const [active, setActive] = useState('home');
+    const [themeBoard, setThemeBoard] = useState(false);
+
+    const [active, setActive] = useState('/student/home');
+    const { setTheme } = useContext(ContextProvider);
 
     return (
         <>
@@ -27,42 +22,48 @@ function Sidebar() {
                 <div className={styles.wrapperBtn}>
                     <div className={styles.wrapperBlockBtn}>
                         <Link
-                            onClick={() => setActive('home')}
+                            onClick={() => setActive('/student/home')}
                             to="/student/home"
-                            className={clsx(styles.btn, { [styles.active]: active === 'home' })}
+                            className={clsx(styles.btn, { [styles.active]: active === '/student/home' })}
                         >
-                            <FontAwesomeIcon icon={faHouse}></FontAwesomeIcon>
+                            <Icon path={mdiHomeOutline} size={2} />
                             <div className={styles.tooltip}>Trang chủ</div>
                         </Link>
-                        <div className={clsx({ [styles.blockTop]: active === 'home' })}></div>
-                        <div className={clsx({ [styles.blockCenter]: active === 'home' })}></div>
-                        <div className={clsx({ [styles.blockBottom]: active === 'home' })}></div>
+                        <div className={clsx({ [styles.blockTop]: active === '/student/home' })}></div>
+                        <div className={clsx({ [styles.blockCenter]: active === '/student/home' })}></div>
+                        <div className={clsx({ [styles.blockBottom]: active === '/student/home' })}></div>
                     </div>
                     <div className={styles.wrapperBlockBtn}>
                         <Link
-                            onClick={() => setActive('joinclass')}
+                            onClick={() => setActive('/student/joinclass')}
                             to="/student/joinclass"
-                            className={clsx(styles.btn, { [styles.active]: active === 'joinclass' })}
+                            className={clsx(styles.btn, { [styles.active]: active === '/student/joinclass' })}
                         >
-                            <FontAwesomeIcon icon={faBookOpen}></FontAwesomeIcon>
+                            <Icon path={mdiFileDocumentOutline} size={2} />
                             <div className={styles.tooltip}>Lớp học</div>
                         </Link>
-                        <div className={clsx({ [styles.blockTop]: active === 'joinclass' })}></div>
-                        <div className={clsx({ [styles.blockCenter]: active === 'joinclass' })}></div>
-                        <div className={clsx({ [styles.blockBottom]: active === 'joinclass' })}></div>
+                        <div className={clsx({ [styles.blockTop]: active === '/student/joinclass' })}></div>
+                        <div className={clsx({ [styles.blockCenter]: active === '/student/joinclass' })}></div>
+                        <div className={clsx({ [styles.blockBottom]: active === '/student/joinclass' })}></div>
                     </div>
-                    <div className={styles.wrapperBlockBtn}>
-                        <Link
-                            onClick={() => setActive('account')}
-                            to="/student/account"
-                            className={clsx(styles.btn, { [styles.active]: active === 'account' })}
-                        >
-                            <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
-                            <div className={styles.tooltip}>Tài khoản</div>
-                        </Link>
-                        <div className={clsx({ [styles.blockTop]: active === 'account' })}></div>
-                        <div className={clsx({ [styles.blockCenter]: active === 'account' })}></div>
-                        <div className={clsx({ [styles.blockBottom]: active === 'account' })}></div>
+
+                    <div
+                        onClick={() => {
+                            setThemeBoard(!themeBoard);
+                        }}
+                        className={clsx(styles.btnSetting)}
+                    >
+                        <Icon path={mdiCogOutline} size={2} />
+                        {themeBoard && (
+                            <div className={styles.themeWrapper}>
+                                <div className={styles.themeTitle}>Bảng màu</div>
+                                <div onClick={() => setTheme('theme1')} className={styles.themeColor1}></div>
+                                <div onClick={() => setTheme('theme2')} className={styles.themeColor2}></div>
+                                <div onClick={() => setTheme('theme3')} className={styles.themeColor3}></div>
+                                <div onClick={() => setTheme('theme4')} className={styles.themeColor4}></div>
+                                <div onClick={() => setTheme('theme5')} className={styles.themeColor5}></div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,12 +1,35 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressBook, faAngry, faBarChart, faCircleXmark } from '@fortawesome/free-regular-svg-icons';
-import { BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { Fragment } from 'react';
+
+import { privateRoute } from './routes';
+import DefaultLayout from './Layout/DefaultLayout';
 
 function App() {
     return (
         <div className="App">
-            <FontAwesomeIcon icon={faBarChart} />
-            <h1>Test</h1>
+            <Routes>
+                {privateRoute.map((route, index) => {
+                    let Layout = DefaultLayout;
+
+                    if (route.layout) {
+                        Layout = route.layout;
+                    } else if (route.layout === null) {
+                        Layout = Fragment;
+                    }
+
+                    const Page = route.component;
+                    return (
+                        <Route
+                            path={route.path}
+                            element={
+                                <Layout>
+                                    <Page />
+                                </Layout>
+                            }
+                        />
+                    );
+                })}
+            </Routes>
         </div>
     );
 }

@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState } from 'react';
 import Icon from '@mdi/react';
+<<<<<<< HEAD
 import { mdiCogOutline, mdiHomeOutline, mdiFileDocumentOutline } from '@mdi/js';
+=======
+import { mdiAccountOutline, mdiCogOutline, mdiHomeOutline, mdiFileDocumentOutline } from '@mdi/js';
+>>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 import { useContext } from 'react';
 
 import { ContextProvider } from '../../../components/Povider';

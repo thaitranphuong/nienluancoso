@@ -5,7 +5,10 @@
     --text-color: #303a4a;
     --background-color: #f1f5f9 ;
     --primary-color: #1e40af;
+<<<<<<< HEAD
     --green-color: rgb(1, 163, 1);
+=======
+>>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
     --theme2: #2f3542;
     --theme3: #1e3a8a;
     --theme4: #164e63;
@@ -13,7 +16,11 @@
 }
 
 .theme1 {
+<<<<<<< HEAD
     --primary-color: #1e40af; 
+=======
+    --primary-color: #1e40af;
+>>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 }
 
 .theme2 {

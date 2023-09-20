@@ -4,8 +4,10 @@ import Icon from '@mdi/react';
 import { mdiAccountOutline, mdiBellOutline, mdiRotate3dVariant } from '@mdi/js';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import styles from './Header.module.scss';
 import avatar from '../../../assets/images/avatar.png';
+import flag from '../../../assets/images/vi.svg';
 
 function Header() {
     const [windows, setWindow] = useState(false);
@@ -16,6 +18,7 @@ function Header() {
 
     return (
         <div className={styles.wrapper}>
+            <img className={styles.flagIcon} src={flag} alt="flag" />
             <Icon path={mdiBellOutline} size={1.4} className={styles.bellIcon} />
             <div className={styles.avatarWrapper}>
                 <img onClick={() => setWindow(!windows)} className={styles.avatar} src={avatar} alt="avatar"></img>
@@ -32,7 +35,7 @@ function Header() {
                                 <div className={styles.wrapperItem}>
                                     <Link
                                         onClick={() => setWindow(!windows)}
-                                        to="/student/account"
+                                        to="/auth/account"
                                         className={styles.bodyItem}
                                     >
                                         <Icon className={styles.bodyIcon} path={mdiAccountOutline} size={1} />

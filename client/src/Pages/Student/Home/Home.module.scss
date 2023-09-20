@@ -42,7 +42,7 @@ input.searchInput {
 
 .title {
     position: absolute;
-    left: 200px;
+    left: 235px;
 }
 
 .classList {
@@ -67,17 +67,30 @@ input.searchInput {
     border-radius: 5px;
     font-weight: 700;
     transition: all linear 0.1s;
-    cursor: pointer;
-    
-    &:hover {
-        box-shadow: 0 3px 20px #ccc;
-        transform: scale(1.05);
-    }
-}
 
-.teacher {
-    font-size: 1rem;
-    font-weight: 400;
-    margin-top: 20px;
-    color: #607ba1;
+    .teacher {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-top: 5px;
+        color: #607ba1;
+    }
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    .joinBtn {
+        margin-top: 20px;
+        background-color: #fff;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        padding: 5px 10px;
+        border-radius: 2px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+    }
 }

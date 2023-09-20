@@ -1,51 +1,80 @@
 .wrapper {
     display: flex;
-    justify-content: center;
     margin-left: 120px;
     padding-top: 100px;
-    text-align: center;
 }
 
 .title {
     position: absolute;
-    left: 200px;
+    left: 235px;
 }
 
 .classList {
-    display: flex;
-    flex-wrap: wrap;
     position: absolute;
-    width: 80%;
-    margin-left: 40px;
+    margin-left: 120px;
     margin-top: 50px;
-}
-
-.classItem {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 70%;
     flex-direction: column;
-    padding: 20px;
-    background-color: #fff;
-    width: 250px;
-    margin: 20px;
-    height: 150px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all linear 0.1s;
-    text-decoration: none;
-    color: #000;
-    font-weight: 700;
+
+    .classItemWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     
-    &:hover {
-        box-shadow: 0 3px 20px #ccc;
-        transform: scale(1.05);
+        .classItem {
+            display: flex;
+            flex-shrink: 1;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            min-width: 167px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all linear 0.1s;
+            text-decoration: none;
+            color: #000;
+            font-weight: 700;
+        
+            .classIcon {
+                margin-right: 10px;
+                color: var(--green-color);
+            }
+        
+            .name {
+                color: var(--primary-color);
+            }
+        
+            .teacher {
+                font-size: 1rem;
+                font-weight: 400;
+                margin-top: 4px;
+                margin-left: 2px;
+                color: #607ba1;
+            }
+        
+            &:hover .name {
+                color: red;
+            }
+        }
+
+        .classItemRight {
+            display: flex;
+            align-items: center;
+            padding-right: 100px;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+
+            .iconQuit {
+                color: red; 
+            }
+
+            &:hover {
+                color: red;
+            }
+        }
     }
 }
 
-.teacher {
-    font-size: 1rem;
-    font-weight: 400;
-    margin-top: 20px;
-    color: #607ba1;
-}
+

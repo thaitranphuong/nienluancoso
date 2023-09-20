@@ -1,71 +1,41 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faClock, faFileSignature, faQuestionCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './Classroom.module.scss';
+import QuitButton from '../../../components/QuitButton';
 
 function Classroom() {
-    const [modal, setModal] = useState(false);
-
-    const handleOpenModal = () => {
-        setModal(true);
-    };
-
     return (
         <div className={styles.wrapper}>
-            <h3 className={styles.title}>Danh sách bài thi</h3>
-            <Link to="/student/joinclass" className={styles.goBack}>
-                <FontAwesomeIcon className={styles.iconBack} icon={faAngleLeft} />
-                Quay lại
-            </Link>
-            <div className={styles.examList}>
-                <div onClick={() => handleOpenModal()} className={styles.examItem}>
-                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
-                    Tên bài thi
-                </div>
-                <div onClick={() => handleOpenModal()} className={styles.examItem}>
-                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
-                    Tên bài thi
-                </div>
-                <div onClick={() => handleOpenModal()} className={styles.examItem}>
-                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
-                    Tên bài thi
-                </div>
-                <div onClick={() => handleOpenModal()} className={styles.examItem}>
-                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
-                    Tên bài thi
-                </div>
-                <div onClick={() => handleOpenModal()} className={styles.examItem}>
-                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
-                    Tên bài thi
-                </div>
+            <div className={styles.head}>
+                <h2 className={styles.subject}>Nhập môn lập trình web</h2>
+                <span className={styles.teacher}>GV: Nguyễn Đức Khoa</span>
             </div>
-
-            {modal && (
-                <div className={styles.modal}>
-                    <div className={styles.modalWrapper}>
-                        <FontAwesomeIcon onClick={() => setModal(false)} className={styles.iconClose} icon={faTimes} />
-                        <div className={styles.titleExam}>Tên bài thi</div>
-                        <div className={styles.info}>
-                            <div className={styles.infoLeft}>
-                                <FontAwesomeIcon className={styles.infoIcon} icon={faClock} />
-                                Thời gian làm bài
-                            </div>
-                            <div className={styles.infoRight}>40 phút</div>
-                        </div>
-                        <div className={styles.info}>
-                            <div className={styles.infoLeft}>
-                                <FontAwesomeIcon className={styles.infoIcon} icon={faQuestionCircle} />
-                                Số lượng câu hỏi
-                            </div>
-                            <div className={styles.infoRight}>20</div>
-                        </div>
-
-                        <button className={styles.btnStart}>Bắt đầu thi</button>
-                    </div>
-                </div>
-            )}
+            <h3 className={styles.title}>Danh sách bài thi</h3>
+            <QuitButton path={'/student/joinclass'} />
+            <div className={styles.examList}>
+                <Link to="/student/exam" className={styles.examItem}>
+                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
+                    Kiểm tra 15 phút
+                </Link>
+                <Link to="/student/exam" className={styles.examItem}>
+                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
+                    Thi cuối kỳ I
+                </Link>
+                <Link to="/student/exam" className={styles.examItem}>
+                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
+                    Kiểm tra 1 tiết
+                </Link>
+                <Link to="/student/exam" className={styles.examItem}>
+                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
+                    Kiểm tra thử
+                </Link>
+                <Link to="/student/exam" className={styles.examItem}>
+                    <FontAwesomeIcon className={styles.iconExam} icon={faFileSignature} />
+                    Ôn tập cuối kỳ I
+                </Link>
+            </div>
         </div>
     );
 }

@@ -6,16 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
 import { BrowserRouter } from 'react-router-dom';
 import Provider from './components/Povider';
-<<<<<<< HEAD
 import ContextProviderTest from './Pages/Test/Component/ContextProviderTest';
-=======
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider>
-<<<<<<< HEAD
             <ContextProviderTest>
                 <GlobalStyles>
                     <BrowserRouter>
@@ -23,13 +19,6 @@ root.render(
                     </BrowserRouter>
                 </GlobalStyles>
             </ContextProviderTest>
-=======
-            <GlobalStyles>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
-            </GlobalStyles>
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
         </Provider>
     </React.StrictMode>,
 );

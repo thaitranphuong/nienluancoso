@@ -19,26 +19,32 @@ function Account() {
                     </div>
                     <div className={styles.item}>
                         <label className={styles.label}>Ngày sinh</label>
-                        <input className={styles.input} value={'Thai Tran'} onChange={() => {}} />
+                        <input className={styles.input} value={'01-02-1990'} onChange={() => {}} type="date" />
                     </div>
                     <div className={styles.item}>
                         <label className={styles.label}>Email</label>
                         <input
                             className={clsx(styles.input, styles.disabled)}
-                            value={'Thai Tran'}
+                            value={'tranphuongthai000@gmail.com'}
                             onChange={() => {}}
                             disabled
                         />
                     </div>
                     <div className={styles.item}>
                         <label className={styles.label}>Số điện thoại</label>
-                        <input className={styles.input} value={'Thai Tran'} onChange={() => {}} />
+                        <input className={styles.input} value={'0924585421'} onChange={() => {}} />
                     </div>
                     <div className={styles.item}>
                         <label className={styles.label}>Giới tính</label>
                         <div className={styles.inputGender}>
                             <div className={styles.radio}>
-                                <input className={styles.radioCircuit} name="gender" value={true} type="radio" />
+                                <input
+                                    className={styles.radioCircuit}
+                                    name="gender"
+                                    value={true}
+                                    type="radio"
+                                    checked
+                                />
                                 Nam
                             </div>
                             <div className={styles.radio}>

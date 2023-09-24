@@ -226,8 +226,12 @@
         }
     }
 
-    .modal {
+    .modal.activeModal {
         display: flex;
+    }
+
+    .modal {
+        display: none;
         position: fixed;
         justify-content: center;
         align-self: center;

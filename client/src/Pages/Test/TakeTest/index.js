@@ -5,19 +5,11 @@ import clsx from 'clsx';
 
 import { ContextTest } from '../Component/ContextProviderTest';
 import styles from './TakeTest.module.scss';
+import Timer from '../Component/Timer';
 
 function TakeTest() {
     const [modal, setModal] = useState(false);
     const [time, setTime] = useState(3000);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setTime(time - 1);
-        }, 1000);
-
-        if (time < 0) {
-        }
-    }, [time]);
 
     return (
         <div className={styles.wrapper}>
@@ -30,9 +22,7 @@ function TakeTest() {
                 <div className={styles.right}>
                     <div className={styles.time}>
                         <Icon className={styles.timeIcon} path={mdiClockOutline} size={1.3} />
-                        <>
-                            0{Math.floor(time / 3600)} : {Math.floor(time / 60)} : {time % 60}
-                        </>
+                        <Timer timeTest={40} />
                     </div>
                     <button onClick={() => setModal(true)} className={styles.btnSubmit}>
                         <Icon className={styles.iconSubmit} path={mdiFileEditOutline} size={1} />
@@ -187,37 +177,33 @@ function TakeTest() {
                 </div>
             </body>
 
-            {modal && (
-                <div className={styles.modal}>
-                    <div onClick={() => setModal(false)} className={styles.modalBackground}></div>
-                    <div className={styles.modalWrapper}>
-                        <div className={styles.modalBody}>
-                            <div className={styles.modalBodyTop}>
-                                <Icon className={styles.modalBodyTopIcon} path={mdiFileCheckOutline} size={1.5} />
-                                Bạn có chắc chắn muốn nộp bài ?
-                            </div>
-                            <div className={styles.modalBodyMiddle}>
-                                Thời gian làm bài của bạn còn{' '}
-                                <strong className={styles.modalTime}>
-                                    <>
-                                        0{Math.floor(time / 3600)} : {Math.floor(time / 60)} : {time % 60}
-                                    </>
-                                </strong>
-                            </div>
-                            <div className={styles.modalBodyBottom}>
-                                Khi xác nhận nhấn nộp bài, bạn sẽ không thể sửa lại bài thi của mình. Hãy chắc chắn bạn
-                                đã xem lại tất cả các đáp án. Chúc bạn may mắn 🍀.
-                            </div>
+            <div className={clsx(styles.modal, { [styles.activeModal]: modal })}>
+                <div onClick={() => setModal(false)} className={styles.modalBackground}></div>
+                <div className={styles.modalWrapper}>
+                    <div className={styles.modalBody}>
+                        <div className={styles.modalBodyTop}>
+                            <Icon className={styles.modalBodyTopIcon} path={mdiFileCheckOutline} size={1.5} />
+                            Bạn có chắc chắn muốn nộp bài ?
                         </div>
-                        <div className={styles.modalFooter}>
-                            <button onClick={() => setModal(false)} className={styles.modalCancleBtn}>
-                                Hủy
-                            </button>
-                            <button className={styles.modalSubmitBtn}>Nộp bài</button>
+                        <div className={styles.modalBodyMiddle}>
+                            Thời gian làm bài của bạn còn{' '}
+                            <strong className={styles.modalTime}>
+                                <Timer timeTest={40} />
+                            </strong>
+                        </div>
+                        <div className={styles.modalBodyBottom}>
+                            Khi xác nhận nhấn nộp bài, bạn sẽ không thể sửa lại bài thi của mình. Hãy chắc chắn bạn đã
+                            xem lại tất cả các đáp án. Chúc bạn may mắn 🍀.
                         </div>
                     </div>
+                    <div className={styles.modalFooter}>
+                        <button onClick={() => setModal(false)} className={styles.modalCancleBtn}>
+                            Hủy
+                        </button>
+                        <button className={styles.modalSubmitBtn}>Nộp bài</button>
+                    </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 }

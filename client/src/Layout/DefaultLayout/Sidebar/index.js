@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
-<<<<<<< HEAD
 import { mdiCogOutline, mdiHomeOutline, mdiFileDocumentOutline } from '@mdi/js';
-=======
-import { mdiAccountOutline, mdiCogOutline, mdiHomeOutline, mdiFileDocumentOutline } from '@mdi/js';
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 import { useContext } from 'react';
 
 import { ContextProvider } from '../../../components/Povider';
@@ -15,9 +11,16 @@ import logo from '../../../assets/images/logo.png';
 
 function Sidebar() {
     const [themeBoard, setThemeBoard] = useState(false);
-
     const [active, setActive] = useState('/student/home');
     const { setTheme } = useContext(ContextProvider);
+
+    useEffect(() => {
+        if (window.location.pathname.includes('/student/home')) {
+            setActive('/student/home');
+        } else {
+            setActive('/student/joinclass');
+        }
+    }, [window.location.pathname]);
 
     return (
         <>
@@ -26,7 +29,6 @@ function Sidebar() {
                 <div className={styles.wrapperBtn}>
                     <div className={styles.wrapperBlockBtn}>
                         <Link
-                            onClick={() => setActive('/student/home')}
                             to="/student/home"
                             className={clsx(styles.btn, { [styles.active]: active === '/student/home' })}
                         >
@@ -39,7 +41,6 @@ function Sidebar() {
                     </div>
                     <div className={styles.wrapperBlockBtn}>
                         <Link
-                            onClick={() => setActive('/student/joinclass')}
                             to="/student/joinclass"
                             className={clsx(styles.btn, { [styles.active]: active === '/student/joinclass' })}
                         >

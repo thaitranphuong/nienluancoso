@@ -4,10 +4,7 @@ import Icon from '@mdi/react';
 import { mdiAccountOutline, mdiBellOutline, mdiRotate3dVariant } from '@mdi/js';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
 
-=======
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 import styles from './Header.module.scss';
 import avatar from '../../../assets/images/avatar.png';
 import flag from '../../../assets/images/vi.svg';
@@ -16,15 +13,12 @@ function Header() {
     const [windows, setWindow] = useState(false);
 
     const handleRefresh = () => {
-        window.location.pathname = '/student/home';
+        window.location.reload();
     };
 
     return (
         <div className={styles.wrapper}>
-<<<<<<< HEAD
             <img className={styles.flagIcon} src={flag} alt="flag" />
-=======
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
             <Icon path={mdiBellOutline} size={1.4} className={styles.bellIcon} />
             <div className={styles.avatarWrapper}>
                 <img onClick={() => setWindow(!windows)} className={styles.avatar} src={avatar} alt="avatar"></img>
@@ -41,11 +35,7 @@ function Header() {
                                 <div className={styles.wrapperItem}>
                                     <Link
                                         onClick={() => setWindow(!windows)}
-<<<<<<< HEAD
                                         to="/auth/account"
-=======
-                                        to="/student/account"
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
                                         className={styles.bodyItem}
                                     >
                                         <Icon className={styles.bodyIcon} path={mdiAccountOutline} size={1} />

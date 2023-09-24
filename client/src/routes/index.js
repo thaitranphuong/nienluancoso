@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 
-<<<<<<< HEAD
 import Home from '../Pages/Student/Home';
 import Login from '../Pages/Auth/Login';
 import Classroom from '../Pages/Student/Classroom';
@@ -12,9 +11,6 @@ import History from '../Pages/Test/History';
 import Account from '../Pages/Auth/Account';
 
 const publicRoute = [{ path: '/auth/login', component: Login, layout: null }];
-=======
-const publicRoute = [{ path: '/login', component: Login, layout: null }];
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
 
 const privateRoute = [
     { path: '/student/test/history', component: History },
@@ -25,11 +21,7 @@ const privateRoute = [
     { path: '/student/exam', component: Exam },
     { path: '/student/joinclass', component: JoinClass },
     { path: '/student/classroom', component: Classroom },
-<<<<<<< HEAD
-    { path: '/auth/account', component: Account },
-=======
-    { path: '/student/account', component: Fragment },
->>>>>>> bd7b51679267eed8194a715d21a79e652c27b18e
+    { path: '/auth/account/:id', component: Account }, //sử dụng useParams của react router dom để lấy id
 ];
 
 export { publicRoute, privateRoute };

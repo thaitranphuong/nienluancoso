@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Fragment } from 'react';
+import { Provider } from './components/Povider';
 
 import { privateRoute, publicRoute } from './routes';
 import DefaultLayout from './Layout/DefaultLayout';

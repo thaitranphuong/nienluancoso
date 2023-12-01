@@ -94,3 +94,38 @@ input.searchInput {
         }
     }
 }
+
+.pagination {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 500px;
+
+    .pageList {
+        
+        .pageItem {
+            padding: 10px;
+            margin-right: 5px;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .pageItem.active {
+            border: none;
+            color: #fff;
+            background-color: var(--primary-color);
+        }
+
+        .pageItem.disabled {
+            border: none;
+            color: #fff;
+            background-color: #ccc;
+            cursor: auto;
+        }
+    }
+}

@@ -2,14 +2,127 @@ import { useContext, useState, useEffect } from 'react';
 import Icon from '@mdi/react';
 import { mdiClockOutline, mdiFileCheckOutline, mdiFileEditOutline, mdiPowerStandby } from '@mdi/js';
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom';
 
+import { ContextProvider } from '../../../components/Povider';
 import { ContextTest } from '../Component/ContextProviderTest';
 import styles from './TakeTest.module.scss';
 import Timer from '../Component/Timer';
 
 function TakeTest() {
     const [modal, setModal] = useState(false);
-    const [time, setTime] = useState(3000);
+    const [student, setStudent] = useState({});
+    const [exam, setExam] = useState({});
+    const [listQuestion, setListQuestion] = useState([]);
+    const [implementation, setImplementation] = useState({
+        student_id: localStorage.getItem('id'),
+        exam_id: localStorage.getItem('exam_id'),
+        score: 0,
+    });
+    const [listAnswer, setListAnswer] = useState([]);
+    const [listScore, setListScore] = useState([]);
+    const redirect = useNavigate();
+
+    if (!localStorage.getItem('time')) {
+        redirect('/student/classroom');
+    }
+
+    useEffect(() => {
+        fetch('http://localhost:8080/exam/get-exam/' + localStorage.getItem('exam_id'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((res) => res.json())
+            .then((res) => setExam(res));
+
+        fetch('http://localhost:8080/user/get-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: localStorage.getItem('id'),
+        })
+            .then((res) => res.json())
+            .then((res) => setStudent(res));
+
+        fetch('http://localhost:8080/question/get-questions-and-options/' + localStorage.getItem('exam_id'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                setListQuestion(res);
+                setListAnswer(() => {
+                    const listAnswerTemp = [];
+                    res.forEach((item) => {
+                        listAnswerTemp.push({
+                            implementation_id: null,
+                            question_id: item.id,
+                            choice: '',
+                        });
+                    });
+                    return [...listAnswerTemp];
+                });
+                setListScore(() => {
+                    const listScoreTemp = [];
+                    res.forEach(() => {
+                        listScoreTemp.push(0);
+                    });
+                    return [...listScoreTemp];
+                });
+            });
+    }, []);
+
+    const handleChooseOption = (index, id_question, choice) => {
+        setListAnswer((prev) => {
+            const listAnswerTemp = [...prev];
+            listAnswerTemp[index].choice = choice;
+            return listAnswerTemp;
+        });
+
+        if (choice === listQuestion[index].correct) {
+            setListScore((prev) => {
+                const listScoreTemp = [...prev];
+                listScoreTemp[index] = listQuestion[index].score;
+                return [...listScoreTemp];
+            });
+        } else {
+            setListScore((prev) => {
+                const listScoreTemp = [...prev];
+                listScoreTemp[index] = 0;
+                return [...listScoreTemp];
+            });
+        }
+    };
+
+    const handleSubmit = () => {
+        const score = listScore.reduce((acc, item) => acc + item, 0);
+        const implementationSubmit = { ...implementation, score };
+
+        fetch('http://localhost:8080/implementation/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(implementationSubmit),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                localStorage.setItem('implementation_id', res);
+                listAnswer.forEach((item) => (item.implementation_id = res));
+                fetch('http://localhost:8080/answer/save-answers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(listAnswer),
+                }).then(() => (window.location.pathname = '/student/test/end-test'));
+            });
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -18,11 +131,11 @@ function TakeTest() {
                     <Icon className={styles.iconLeft} path={mdiPowerStandby} size={1.1} />
                     Thoát
                 </button>
-                <div className={styles.mid}>Thí sinh: Tran Thai</div>
+                <div className={styles.mid}>Thí sinh: {student.name}</div>
                 <div className={styles.right}>
                     <div className={styles.time}>
                         <Icon className={styles.timeIcon} path={mdiClockOutline} size={1.3} />
-                        <Timer timeTest={40} />
+                        <Timer handleSubmit={handleSubmit} timeTest={JSON.parse(localStorage.getItem(`time`))} />
                     </div>
                     <button onClick={() => setModal(true)} className={styles.btnSubmit}>
                         <Icon className={styles.iconSubmit} path={mdiFileEditOutline} size={1} />
@@ -33,148 +146,77 @@ function TakeTest() {
             <nav className={styles.sidebar}>
                 <div className={styles.title}>Danh sách câu hỏi</div>
                 <div className={styles.orderList}>
-                    <button className={clsx(styles.orderItem, styles.active)}>01</button>
-                    <button className={clsx(styles.orderItem)}>02</button>
-                    <button className={clsx(styles.orderItem)}>03</button>
-                    <button className={clsx(styles.orderItem)}>04</button>
-                    <button className={clsx(styles.orderItem)}>05</button>
-                    <button className={clsx(styles.orderItem)}>06</button>
-                    <button className={clsx(styles.orderItem)}>07</button>
-                    <button className={clsx(styles.orderItem)}>08</button>
-                    <button className={clsx(styles.orderItem)}>09</button>
+                    {listQuestion.map((item, index) => (
+                        <button
+                            key={index}
+                            className={clsx(styles.orderItem, { [styles.active]: listAnswer[index].choice !== '' })}
+                        >
+                            {index + 1 < 10 && 0}
+                            {index + 1}
+                        </button>
+                    ))}
                 </div>
             </nav>
             <body className={styles.body}>
-                <div className={styles.question}>
-                    <div className={styles.bodyQuestion}>
-                        <div className={styles.title}>Câu 1</div>
-                        <div className={styles.content}>
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                        </div>
-                        <div className={styles.answerList}>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>A. </strong>x = 3
+                {listQuestion.map((item, index) => (
+                    <div key={index} className={styles.question}>
+                        <div className={styles.bodyQuestion}>
+                            <div className={styles.titleWrapper}>
+                                <div className={styles.title}>Câu {index + 1}:</div>
+                                <div className={styles.score}>{item.score} điểm</div>
                             </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>B. </strong>x = 4
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>C. </strong>x = 5
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>D. </strong>x = 6
+                            <div className={styles.content}>{item.content}</div>
+                            {item.image && (
+                                <img width={500} src={'http://localhost:8080/question/getimage/' + item.image} alt="" />
+                            )}
+                            <div className={styles.answerList}>
+                                {item.options.map((item, index) => (
+                                    <div key={index} className={styles.answerItem}>
+                                        <strong className={styles.label}>{item.label}. </strong>
+                                        {item.content}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    </div>
-                    <div className={styles.footer}>
-                        Đáp án của bạn:
-                        <div className={styles.optionList}>
-                            <button className={clsx(styles.optionItem, styles.active)}>A</button>
-                            <button className={clsx(styles.optionItem)}>B</button>
-                            <button className={clsx(styles.optionItem)}>C</button>
-                            <button className={clsx(styles.optionItem)}>D</button>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.question}>
-                    <div className={styles.bodyQuestion}>
-                        <div className={styles.title}>Câu 2</div>
-                        <div className={styles.content}>
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                        </div>
-                        <div className={styles.answerList}>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>A. </strong>x = 3
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>B. </strong>x = 4
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>C. </strong>x = 5
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>D. </strong>x = 6
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.footer}>
-                        Đáp án của bạn:
-                        <div className={styles.optionList}>
-                            <button className={clsx(styles.optionItem)}>A</button>
-                            <button className={clsx(styles.optionItem, styles.active)}>B</button>
-                            <button className={clsx(styles.optionItem)}>C</button>
-                            <button className={clsx(styles.optionItem)}>D</button>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.question}>
-                    <div className={styles.bodyQuestion}>
-                        <div className={styles.title}>Câu 3</div>
-                        <div className={styles.content}>
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                        </div>
-                        <div className={styles.answerList}>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>A. </strong>x = 3
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>B. </strong>x = 4
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>C. </strong>x = 5
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>D. </strong>x = 6
+                        <div className={styles.footer}>
+                            Đáp án của bạn:
+                            <div className={styles.optionList}>
+                                <button
+                                    onClick={() => handleChooseOption(index, item.id, 'A')}
+                                    className={clsx(styles.optionItem, {
+                                        [styles.active]: listAnswer[index].choice === 'A',
+                                    })}
+                                >
+                                    A
+                                </button>
+                                <button
+                                    onClick={() => handleChooseOption(index, item.id, 'B')}
+                                    className={clsx(styles.optionItem, {
+                                        [styles.active]: listAnswer[index].choice === 'B',
+                                    })}
+                                >
+                                    B
+                                </button>
+                                <button
+                                    onClick={() => handleChooseOption(index, item.id, 'C')}
+                                    className={clsx(styles.optionItem, {
+                                        [styles.active]: listAnswer[index].choice === 'C',
+                                    })}
+                                >
+                                    C
+                                </button>
+                                <button
+                                    onClick={() => handleChooseOption(index, item.id, 'D')}
+                                    className={clsx(styles.optionItem, {
+                                        [styles.active]: listAnswer[index].choice === 'D',
+                                    })}
+                                >
+                                    D
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div className={styles.footer}>
-                        Đáp án của bạn:
-                        <div className={styles.optionList}>
-                            <button className={clsx(styles.optionItem, styles.active)}>A</button>
-                            <button className={clsx(styles.optionItem)}>B</button>
-                            <button className={clsx(styles.optionItem)}>C</button>
-                            <button className={clsx(styles.optionItem)}>D</button>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.question}>
-                    <div className={styles.bodyQuestion}>
-                        <div className={styles.title}>Câu 4</div>
-                        <div className={styles.content}>
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                            ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd ddd
-                        </div>
-                        <div className={styles.answerList}>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>A. </strong>x = 3
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>B. </strong>x = 4
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>C. </strong>x = 5
-                            </div>
-                            <div className={styles.answerItem}>
-                                <strong className={styles.label}>D. </strong>x = 6
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.footer}>
-                        Đáp án của bạn:
-                        <div className={styles.optionList}>
-                            <button className={clsx(styles.optionItem, styles.active)}>A</button>
-                            <button className={clsx(styles.optionItem)}>B</button>
-                            <button className={clsx(styles.optionItem)}>C</button>
-                            <button className={clsx(styles.optionItem)}>D</button>
-                        </div>
-                    </div>
-                </div>
+                ))}
             </body>
 
             <div className={clsx(styles.modal, { [styles.activeModal]: modal })}>
@@ -188,7 +230,7 @@ function TakeTest() {
                         <div className={styles.modalBodyMiddle}>
                             Thời gian làm bài của bạn còn{' '}
                             <strong className={styles.modalTime}>
-                                <Timer timeTest={40} />
+                                <Timer handleSubmit={() => {}} timeTest={JSON.parse(localStorage.getItem(`time`))} />
                             </strong>
                         </div>
                         <div className={styles.modalBodyBottom}>
@@ -200,7 +242,9 @@ function TakeTest() {
                         <button onClick={() => setModal(false)} className={styles.modalCancleBtn}>
                             Hủy
                         </button>
-                        <button className={styles.modalSubmitBtn}>Nộp bài</button>
+                        <button onClick={handleSubmit} className={styles.modalSubmitBtn}>
+                            Nộp bài
+                        </button>
                     </div>
                 </div>
             </div>

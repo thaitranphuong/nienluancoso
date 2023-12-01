@@ -124,7 +124,6 @@
                 border: 1px solid var(--primary-color);
                 margin: 4px;
                 color: #62666c;
-                cursor: pointer;
             }
 
             .orderItem.active {
@@ -165,13 +164,25 @@
             .bodyQuestion {
                 padding: 10px 40px 10px 10px;
 
-                .title {
-                    font-size: 1.3rem;
-                    font-weight: 600;
+                .titleWrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .title {
+                        font-size: 1.4rem;
+                        font-weight: 600;
+                    }
+
+                    .score {
+                        font-size: 1rem;
+                        font-weight: 500;
+                        border-bottom: 1px solid #000 ;
+                    }
                 }
 
                 .content {
-                    font-size: 1.3rem;
+                    font-size: 1.5rem;
                     font-weight: 500;
                 }
 

@@ -16,6 +16,7 @@
     display: flex;
     width: 70%;
     flex-direction: column;
+    padding-bottom: 200px;
 
     .classItemWrapper {
         display: flex;
@@ -53,8 +54,8 @@
                 color: #607ba1;
             }
         
-            &:hover .name {
-                color: red;
+            &:hover {
+                margin-left: -5px;
             }
         }
 
@@ -67,11 +68,11 @@
             cursor: pointer;
 
             .iconQuit {
-                color: red; 
+                color: #ff651b; 
             }
 
             &:hover {
-                color: red;
+                color: #ff651b;
             }
         }
     }

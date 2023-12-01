@@ -1,22 +1,35 @@
 import { useState, useEffect } from 'react';
 import styles from './Timer.module.scss';
 
-function Timer({ timeTest }) {
-    const [time, setTime] = useState(timeTest * 60);
+function Timer({ handleSubmit, timeTest }) {
+    const [time, setTime] = useState(timeTest);
 
     useEffect(() => {
-        setTimeout(() => {
-            setTime(time - 1);
-        }, 1000);
+        if (!!timeTest) {
+            setTime(timeTest);
+        }
+    }, [timeTest]);
 
-        if (time < 0) {
-            //setPage('endquiz')
+    useEffect(() => {
+        if (time === 0) {
+            handleSubmit();
+        }
+
+        if (!!timeTest) {
+            setTimeout(() => {
+                localStorage.setItem(`time`, JSON.stringify(time - 1));
+                setTime(time - 1);
+            }, 1000);
         }
     }, [time]);
 
     return (
         <div className={styles.wrapper}>
-            0{Math.floor(time / 3600)} : {Math.floor(Math.floor(time % 3600) / 60)} : {time % 60}
+            {!!time && (
+                <>
+                    0{Math.floor(time / 3600)} : {Math.floor(Math.floor(time % 3600) / 60)} : {time % 60}
+                </>
+            )}
         </div>
     );
 }

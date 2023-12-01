@@ -1,20 +1,23 @@
 @import 'normalize.css';
 /*Link icon: https://pictogrammers.com/library/mdi/ */
+/* import "bootstrap/dist/css/bootstrap.min.css"; */
+/* https://www.npmjs.com/package/react-toastify */
+/* dialogflow.cloud.google.com */
 
 :root {
     --text-color: #303a4a;
-    --background-color: #f1f5f9 ;
-    --primary-color: #1e40af;
+    --background-color: #f1f5f9;
     --green-color: rgb(1, 163, 1);
+    --theme1: #1e40af;
     --theme2: #2f3542;
-    --theme3: #1e3a8a;
+    --theme3: #8d3081;
     --theme4: #164e63;
     --theme5: #312e81;
+    --primary-color: var(--theme1);
 }
 
 .theme1 {
-    --primary-color: #1e40af; 
-    --primary-color: #1e40af;
+    --primary-color: var(--theme1);
 }
 
 .theme2 {
